@@ -1,9 +1,7 @@
-
-Funcionalidade: Gráfico de aprovacão da classe
+Funcionalidade: Gerar arquivo .CSV
     Como um professor
-    Eu quero ver gráfico gerado que mostre a porcentagem de aprovação/reprovação
-    Junto aos dados de quantidade de alunos por menção obtida
-    Para que eu possa analisar a performance da turma
+    Eu quero poder gerar um arquivo .csv
+    Para que eu possa utilizar esses dados em outra plataforma
 
 #HAPPY PATH
 Cenário: O gráfico é gerado com sucesso
@@ -11,7 +9,8 @@ Cenário: O gráfico é gerado com sucesso
     E os dados estão formatados corretamente
     Quando o professor escolhe uma turma específica
     Então a aplicação passa esses dados para o próximo passo
-    E os resultados serão imprimidos na tela em forma de gráfico.
+    E os dados são compilados em um arquivo .csv
+    E o arquivo .csv é baixado do navegador.
 
 #SAD PATH
 Cenário: A turma não existe
@@ -19,14 +18,16 @@ Cenário: A turma não existe
     Dado que não existem dados sobre a turma em questão
     Quando o professor escolhe a turma
     E os dados não são encontrados
-    Então uma mensagem é impressa na tela
-    E nenhum gráfico é gerado
+    Então uma mensagem de erro é impressa na tela
+    E nenhum arquivo é gerado
+    E nenhum arquivo é baixado.
 
 #SAD PATH
 Cenário: Os dados estão corrompidos ou mal formatados
     Dado que os dados estão fora do formato padrão
     Quando o professor escolhe a turma
     E os dados não encaixam no padrão
-    E a função que gera o gráfico não consegue interpretar os dados
+    E a função que gera o arquivo .csv não consegue interpretar os dados
     Então uma mensagem de erro é impressa na tela
-    E nenhum gráfico é gerado.
+    E nenhum arquivo é gerado
+    E nenhum arquivo é baixado.
