@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_20_131634) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_20_205307) do
   create_table "answers", force: :cascade do |t|
     t.string "code", null: false
     t.string "question", null: false
@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_131634) do
     t.integer "subject_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_cclasses_on_code"
     t.index ["subject_id"], name: "index_cclasses_on_subject_id"
   end
 
@@ -40,6 +41,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_131634) do
     t.string "semestre", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "\"code\"", name: "index_evaluations_on_code"
     t.index ["name"], name: "index_evaluations_on_name", unique: true
   end
 
@@ -67,16 +69,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_131634) do
   create_table "options", force: :cascade do |t|
     t.string "code", null: false
     t.string "text", null: false
-    t.string "question", null: false
-    t.integer "evaluation_id", null: false
+    t.integer "evaluations_id", null: false
     t.integer "members_id", null: false
     t.integer "cclass_id", null: false
+    t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cclass_id"], name: "index_options_on_cclass_id"
-    t.index ["code"], name: "index_options_on_code", unique: true
-    t.index ["evaluation_id"], name: "index_options_on_evaluation_id"
+    t.index ["evaluations_id"], name: "index_options_on_evaluations_id"
     t.index ["members_id"], name: "index_options_on_members_id"
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "text", null: false
+    t.string "tipo", null: false
+    t.string "subject", null: false
+    t.integer "evaluations_id", null: false
+    t.integer "cclasses_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cclasses_id"], name: "index_questions_on_cclasses_id"
+    t.index ["evaluations_id"], name: "index_questions_on_evaluations_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -105,6 +120,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_131634) do
   add_foreign_key "answers", "members", column: "members_id"
   add_foreign_key "cclasses", "subjects"
   add_foreign_key "options", "cclasses"
-  add_foreign_key "options", "evaluations"
+  add_foreign_key "options", "evaluations", column: "evaluations_id"
   add_foreign_key "options", "members", column: "members_id"
+  add_foreign_key "options", "questions"
+  add_foreign_key "questions", "cclasses", column: "cclasses_id"
+  add_foreign_key "questions", "evaluations", column: "evaluations_id"
 end

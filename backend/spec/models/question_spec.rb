@@ -3,27 +3,21 @@ require 'rails_helper'
 RSpec.describe Question, :type => :model do
     describe '.validation' do
         context 'when all attributes is valid' do
-          t.string :code, null: false
-      t.string :text, null:false
-      t.string :question, null: false, foreign_key:
-      t.references :evaluation, null: false, foreign_key: true
-      t.references :members, null: false, foreign_key: true
-      t.references :cclass,
-            before { question.create!(code: 'mat123457', text: 'Algebra', :question, :evaluation) }
-            subject = described_question.new(code: 'mat123456', name: 'Cálculo')
-            it {expect(subject).to be_valid}
+            before { question.create!(subject:'Cálculo', cclass:'mat123457', evaluation:'Questionário de Satisafação', id: '01', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            question = described_question.new(subject:'Álgebra', cclass:'mat123456', evaluation:'Questionário de Satisafação', id: '02', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            it {expect(question).to be_valid}
           end
       
-          context 'when name is not unique' do
-            before { described_class.create!(code: 'mat123457', name: 'Cálculo') }
-            subject = described_class.new(code: 'mat123456', name: 'Cálculo')
-            it {expect(subject).to be_invalid}
+          context 'when id is not unique' do
+            before { question.create!(subject:'Cálculo', cclass:'mat123457', evaluation:'Questionário de Satisafação', id: '01', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            question = described_question.new(subject:'Cálculo', cclass:'mat123456', evaluation:'Questionário de Satisafação', id: '01', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            it {expect(question).to be_invalid}
           end
       
-          context 'when code is not unique' do
-            before { described_class.create!(code: 'mat123456', name: 'Algebra')}
-            subject = described_class.new(code: 'mat123456', name: 'Cálculo')
-            it {expect(subject).to be_invalid}
+          context 'when evaluation is not unique' do
+            before { question.create!(subject:'Cálculo', cclass:'mat123457', evaluation:'Questionário de Satisafação', id: '01', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            question = described_question.new(subject:'Cálculo', cclass:'mat123456', evaluation:'Questionário de Satisafação', id: '01', text:'Você separa tempo além das aulas para estudar?', tipo:'Múltipla Escolha') }
+            it {expect(question).to be_invalid}
           end
       
           context 'when name is null' do
