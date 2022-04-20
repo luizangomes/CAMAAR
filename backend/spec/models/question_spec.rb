@@ -3,8 +3,14 @@ require 'rails_helper'
 RSpec.describe Question, :type => :model do
     describe '.validation' do
         context 'when all attributes is valid' do
-            before { question.create!(: 'mat123457', name: 'Algebra') }
-            subject = described_class.new(code: 'mat123456', name: 'Cálculo')
+          t.string :code, null: false
+      t.string :text, null:false
+      t.string :question, null: false, foreign_key:
+      t.references :evaluation, null: false, foreign_key: true
+      t.references :members, null: false, foreign_key: true
+      t.references :cclass,
+            before { question.create!(code: 'mat123457', text: 'Algebra', :question, :evaluation) }
+            subject = described_question.new(code: 'mat123456', name: 'Cálculo')
             it {expect(subject).to be_valid}
           end
       
