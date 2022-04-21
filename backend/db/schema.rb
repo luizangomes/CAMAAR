@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_21_134051) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_21_143535) do
+  create_table "answers", force: :cascade do |t|
+    t.text "content"
+    t.integer "survey_answer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_answer_id"], name: "index_answers_on_survey_answer_id"
+  end
+
   create_table "cclasses", force: :cascade do |t|
     t.string "code"
     t.string "semester"
@@ -19,9 +27,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_21_134051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_cclasses_on_code"
-    t.index ["subject_id"], name: "index_cclasses_on_subject_id"
-  end
-
     t.index ["subject_id"], name: "index_cclasses_on_subject_id"
   end
 
@@ -95,9 +100,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_21_134051) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "answers", "survey_answers"
   add_foreign_key "cclasses", "subjects"
-  add_foreign_key "survey_questions", "surveys"
   add_foreign_key "enrollments", "cclasses"
   add_foreign_key "enrollments", "members"
+  add_foreign_key "survey_questions", "surveys"
   add_foreign_key "users", "members"
 end
