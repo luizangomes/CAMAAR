@@ -22,6 +22,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_21_134051) do
     t.index ["subject_id"], name: "index_cclasses_on_subject_id"
   end
 
+    t.index ["subject_id"], name: "index_cclasses_on_subject_id"
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.integer "cclass_id", null: false
+    t.integer "member_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cclass_id"], name: "index_enrollments_on_cclass_id"
+    t.index ["member_id"], name: "index_enrollments_on_member_id"
+  end
+
   create_table "jwt_denylist", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
@@ -77,10 +89,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_21_134051) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "member_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["member_id"], name: "index_users_on_member_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "cclasses", "subjects"
   add_foreign_key "survey_questions", "surveys"
+  add_foreign_key "enrollments", "cclasses"
+  add_foreign_key "enrollments", "members"
+  add_foreign_key "users", "members"
 end
