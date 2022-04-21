@@ -10,19 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_20_205307) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_21_125703) do
   create_table "answers", force: :cascade do |t|
     t.string "code", null: false
     t.string "question", null: false
     t.integer "evaluation_id", null: false
     t.integer "members_id", null: false
     t.integer "cclass_id", null: false
+    t.integer "options_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cclass_id"], name: "index_answers_on_cclass_id"
     t.index ["code"], name: "index_answers_on_code", unique: true
     t.index ["evaluation_id"], name: "index_answers_on_evaluation_id"
     t.index ["members_id"], name: "index_answers_on_members_id"
+    t.index ["options_id"], name: "index_answers_on_options_id"
   end
 
   create_table "cclasses", force: :cascade do |t|
@@ -38,10 +40,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_205307) do
 
   create_table "evaluations", force: :cascade do |t|
     t.string "name", null: false
-    t.string "semestre", null: false
+    t.string "semester", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "\"code\"", name: "index_evaluations_on_code"
     t.index ["name"], name: "index_evaluations_on_name", unique: true
   end
 
@@ -70,14 +71,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_205307) do
     t.string "code", null: false
     t.string "text", null: false
     t.integer "evaluations_id", null: false
-    t.integer "members_id", null: false
     t.integer "cclass_id", null: false
     t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cclass_id"], name: "index_options_on_cclass_id"
     t.index ["evaluations_id"], name: "index_options_on_evaluations_id"
-    t.index ["members_id"], name: "index_options_on_members_id"
     t.index ["question_id"], name: "index_options_on_question_id"
   end
 
@@ -118,10 +117,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_20_205307) do
   add_foreign_key "answers", "cclasses"
   add_foreign_key "answers", "evaluations"
   add_foreign_key "answers", "members", column: "members_id"
+  add_foreign_key "answers", "options", column: "options_id"
   add_foreign_key "cclasses", "subjects"
   add_foreign_key "options", "cclasses"
   add_foreign_key "options", "evaluations", column: "evaluations_id"
-  add_foreign_key "options", "members", column: "members_id"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "cclasses", column: "cclasses_id"
   add_foreign_key "questions", "evaluations", column: "evaluations_id"

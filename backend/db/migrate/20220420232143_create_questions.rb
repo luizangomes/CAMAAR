@@ -5,12 +5,10 @@ class CreateQuestions < ActiveRecord::Migration[7.0]
       t.string :text, null: false
       t.string :tipo, null: false
       t.string :subject, null: false
-      t.references :evaluations, null: false, foreign_key: true
-      t.references :cclasses, null: false, foreign_key: true
+      t.references :evaluations, null: false, foreign_key: true, unique: false
+      t.references :cclasses, null: false, foreign_key: true, unique: false
 
       t.timestamps
     end
-    add_index :cclasses, :code, unique: false
-    add_index :evaluations, :code, unique: false 
   end
 end

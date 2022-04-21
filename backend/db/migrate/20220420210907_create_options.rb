@@ -4,7 +4,6 @@ class CreateOptions < ActiveRecord::Migration[7.0]
       t.string :code, null: false, unique: true
       t.string :text, null: false
       t.references :evaluations, null: false, foreign_key: true
-      t.references :members, null: false, foreign_key: true
       t.references :cclass, null: false, foreign_key: true
       t.references :question, null: false, foreign_key: true
 
