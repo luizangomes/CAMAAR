@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :set_answer, only: %i[ show update destroy ]
     def index
       @answers = Answer.all
       render json: @answers
