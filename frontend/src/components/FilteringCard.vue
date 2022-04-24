@@ -1,34 +1,33 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown color="primary" label="Dropdown Button">
+    <q-btn-dropdown color="primary" label="Escolher Questionário">
       <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
+        <q-item v-for="survey in surveys" :key="survey" clickable v-close-popup @click="getChosenSurvey">
           <q-item-section>
-            <q-item-label>Photos</q-item-label>
+            <q-item-label>Questionário</q-item-label>
           </q-item-section>
         </q-item>
+      </q-list>
+    </q-btn-dropdown>
 
-        <q-item clickable v-close-popup @click="onItemClick">
+    <q-btn-dropdown color="primary" label="Escolher Questão">
+      <q-list>
+        <q-item v-for="question in questions" :key="question.id" clickable v-close-popup @click="getChosenQuestion">
           <q-item-section>
-            <q-item-label>Videos</q-item-label>
+            <q-item-label>Questões</q-item-label>
           </q-item-section>
         </q-item>
-
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Articles</q-item-label>
-          </q-item-section>
-        </q-item>
-
-
       </q-list>
     </q-btn-dropdown>
   </div>
 </template>
 
 <script>
-import api from "src/services/api.js";
+function getChosenSurvey(){
+  return survey_id.code;
+};
 
+import api from "src/services/api.js";
 export default {
   setup() {
     return {
@@ -37,9 +36,8 @@ export default {
       },
     };
   },
-
   mounted() {
-    api.get("/surveys", {
+    listSurveys = api.get("/surveys", {
         params: {
           // class_id: 1
         },
@@ -50,6 +48,18 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    listQuestions = api.get("/questions", {
+        params: {
+          survey_id: getChosenSurvey
+        },
+      })
+      .then((response) => {
+        console.log('>>>', response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   },
 };
 </script>
+
