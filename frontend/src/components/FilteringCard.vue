@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-btn-dropdown color="primary" label="Escolher Questionário">
       <q-list>
-        <q-item v-for="survey in surveys" :key="survey" clickable v-close-popup @click="getChosenSurvey">
+        <q-item v-for="survey in surveys" :key=survey clickable v-close-popup @click="getChosenSurvey">
           <q-item-section>
             <q-item-label>Questionário</q-item-label>
           </q-item-section>
@@ -24,20 +24,20 @@
 
 <script>
 function getChosenSurvey(){
-  return survey_id.code;
+  return survey.code;
 };
 
 import api from "src/services/api.js";
 export default {
   setup() {
     return {
-      onItemClick() {
+      getChosenSurvey() {
         // console.log('Clicked on an Item')
       },
     };
   },
-  mounted() {
-    listSurveys = api.get("/surveys", {
+mounted() {
+    api.get("/surveys", {
         params: {
           // class_id: 1
         },
@@ -48,7 +48,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-    listQuestions = api.get("/questions", {
+    api.get("/questions", {
         params: {
           survey_id: getChosenSurvey
         },
