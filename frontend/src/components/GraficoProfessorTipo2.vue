@@ -22,8 +22,7 @@ export default {
                     this.dados = response.data
                     this.um = this.dados[0][1]
                     this.dois = this.dados[1][1]
-                    this.tres = this.dados[2][1]
-            
+                    this.tres = this.dados[2][1]            
                 })
                 .catch(error => {
                     console.log(error);
